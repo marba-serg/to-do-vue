@@ -3,6 +3,7 @@
     <span class="label">
       {{ description }}
     </span>
+    <div class="tag">{{ tag.content }}</div>
     <div class="actions">
       <button class="btn-picto" type="button" @click="onCheck">
         <img src="@/assets/icons/checkbox-icon.svg" alt="" />
@@ -23,6 +24,10 @@ export default {
   props: {
     description: {
       type: String,
+      requrired: true,
+    },
+    tag: {
+      type: Object,
       requrired: true,
     },
   },

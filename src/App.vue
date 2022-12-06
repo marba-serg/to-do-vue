@@ -20,8 +20,14 @@
 
     <form name="newform" v-on:submit.prevent="addItem">
       <label for="newitem">Add to the todo list</label>
-      <input type="text" name="newitem" id="newitem" />
-      <button type="submit">Add item</button>
+      <input type="text" name="newitem" id="newitem" v-model="currentTask" />
+
+      <select v-model="selectedTag">
+        <option v-for="tag in tagList" :value="tag" :key="tag.id">
+          {{ tag.content }}
+        </option>
+      </select>
+      <button type="submit" @click="addNewTask">Add item</button>
     </form>
   </main>
 </template>
@@ -36,7 +42,6 @@ export default {
   data: () => ({
     defaultData: [
       {
-        title: "Запланировать Урок",
         description: "Подготовить шаблон компонента",
         tag: {
           id: 1,
@@ -45,7 +50,6 @@ export default {
         done: false,
       },
       {
-        title: "Встретиться с девушкой",
         description: "Позвонить и договориться о встрече",
         tag: {
           id: 0,
@@ -54,7 +58,6 @@ export default {
         done: false,
       },
       {
-        title: "Прочитать документацию по JS",
         description: "js",
         tag: {
           id: 3,
@@ -63,7 +66,6 @@ export default {
         done: false,
       },
       {
-        title: "Тренировка",
         description: "Сходить на тренировку",
         tag: {
           id: 2,
@@ -72,7 +74,6 @@ export default {
         done: false,
       },
       {
-        title: "Сыграть с другом",
         description: "Предложить сыграть в какую-то стратежку",
         tag: {
           id: 4,
@@ -103,10 +104,19 @@ export default {
         content: "Досуг",
       },
     ],
+    selectedTag: null,
+    currentTask: null,
   }),
   methods: {
     handleCheck(i) {
       this.defaultData[i].done = !this.defaultData[i].done;
+    },
+    addNewTask() {
+      this.defaultData.push({
+        description: this.currentTask,
+        tag: this.selectedTag,
+        done: false,
+      });
     },
   },
 };
@@ -159,5 +169,43 @@ export default {
   to {
     width: calc(100% + 1rem);
   }
+}
+/* FORM */
+form {
+  margin-top: 3rem;
+  display: flex;
+  flex-wrap: wrap;
+}
+form label {
+  min-width: 100%;
+  margin-bottom: 0.5rem;
+  font-size: 1.3rem;
+}
+form input {
+  flex-grow: 1;
+  border: none;
+  background: #f7f1f1;
+  padding: 0 1.5em;
+  font-size: initial;
+}
+form button {
+  padding: 0 1.3rem;
+  border: none;
+  background: #ff6666;
+  color: white;
+  text-transform: uppercase;
+  font-weight: bold;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  margin-left: 5px;
+  cursor: pointer;
+  transition: background 0.2s ease-out;
+}
+form button:hover {
+  background: #ff5e5e;
+}
+form input,
+form button {
+  font-family: "Quicksand", sans-serif;
+  height: 3rem;
 }
 </style>
